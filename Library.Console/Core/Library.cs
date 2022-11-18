@@ -1,30 +1,16 @@
-﻿using Library.Domain;
+﻿using Library.Console.Exceptions;
+using Library.Domain;
 
 namespace Library.Console.Core;
-/// <summary>
-///     Library, main operation unit
-/// </summary>
 internal class Library : ILibrary
 {
-    /// <summary>
-    ///     Reading rooms of library
-    /// </summary>
     private readonly List<ReadingRoom> _readingRooms = new List<ReadingRoom>();
-
-    /// <summary>
-    ///     Library name
-    /// </summary>
-    public string Name { get; }
+    
+    public string Name { get; set; }
     public IEnumerable<Reader> Readers => _readingRooms.SelectMany(rr => rr.Readers);
     public IEnumerable<StoredBook> Books => _readingRooms.SelectMany(rr => rr.Books);
     public IEnumerable<ReadingRoom> ReadingRooms => _readingRooms;
 
-    /// <summary>
-    ///     Create library
-    /// </summary>
-    /// <param name="name">
-    ///     Library name
-    /// </param>
     internal Library(string name)
     {
         Name = name;
@@ -84,7 +70,7 @@ internal class Library : ILibrary
         var code = name
             .Replace(" ", "")
             .ToUpper()
-            .Substring(0, 10);
+            .Substring(0, name.Length > 10 ? 10 : name.Length);
         var book = new Book(name, author, code, date, receiveDate)
         {
             Rating = rating
@@ -92,7 +78,7 @@ internal class Library : ILibrary
         readingRoom.AddBook(book, quantity: count);
         return book;
     }
-    public void AddBook(
+    public StoredBook AddBook(
         ReadingRoom readingRoom,
         Book book, 
         int count)
@@ -103,6 +89,8 @@ internal class Library : ILibrary
         {
             b.Count += count;
         }
+
+        return b;
     }
     public void RemoveBook(
         ReadingRoom readingRoom, 
@@ -175,50 +163,18 @@ internal class Library : ILibrary
         Reader reader,
         TakenBook book)
         => reader.ReturnBook(book);
-    /// <summary>
-    ///     Check if reading room is containing in system
-    /// </summary>
-    /// <param name="readingRoom">
-    ///     Checked reading room
-    /// </param>
-    /// <returns>
-    ///     Returns stored reading room
-    /// </returns>
+
     private ReadingRoom CheckIfContainedInLibraryAndReturnsStoredValue(ReadingRoom readingRoom)
         => _readingRooms
                .FirstOrDefault(rr => rr.Equals(readingRoom)) ?? 
-           throw new ArgumentException(
-               paramName: nameof(readingRoom),
-               message: "Reading room by current book is not found");
-    /// <summary>
-    ///     Check if book is containing in system
-    /// </summary>
-    /// <param name="book">
-    ///     Checked book
-    /// </param>
-    /// <returns>
-    ///     Return stored in system book
-    /// </returns>
+           throw new ReadingRoomIsNotFoundInLibraryException(readingRoom);
     private StoredBook CheckIfContainedInLibraryAndReturnsStoredValue(Book book)
         => Books
                .FirstOrDefault(sb => sb.Book.Equals(book)) ??
-           throw new ArgumentException(
-               paramName: nameof(book),
-               message: "Reading room by current book is not found");
-    /// <summary>
-    ///     Check if reader is containing in system
-    /// </summary>
-    /// <param name="reader">
-    ///     Checked reader
-    /// </param>
-    /// <returns>
-    ///     Returns stored reader
-    /// </returns>
+           throw new BookIsNotFoundInLibraryException(book);
     private Reader CheckIfContainedInLibraryAndReturnsStoredValue(Reader reader)
         => _readingRooms
                .SelectMany(c => c.Readers)
                .FirstOrDefault(r => r.Equals(reader)) ?? 
-           throw new ArgumentException(
-               paramName: nameof(reader),
-               message: "Reading room by current book is not found");
+           throw new ReaderIsNotFoundInLibraryException(reader);
 }

@@ -15,7 +15,7 @@ public abstract class ApplicationStateCommand : IStateCommand
             try
             {
                 if (!firstInput)
-                    System.Console.WriteLine("Неправельний ввод! Спробуйте знов!");
+                    System.Console.WriteLine("Команду введено неправильно! Спробуйте ще раз!");
 
                 userInput = Convert.ToInt32(GetStringUserInput());
 
@@ -41,13 +41,13 @@ public abstract class ApplicationStateCommand : IStateCommand
         bool firstInput = true;
 
         System.Console.WriteLine("Правильна форма написання дати: " +
-                                 "рік.місяць.день години:хвилини");
+                                 "рік.місяць.день години:хвилини (форма: xxxx.xx.xx xx:xx)");
         do
         {
             try
             {
                 if (!firstInput)
-                    System.Console.WriteLine("Incorrect input! Try again.");
+                    System.Console.WriteLine("Команду введено неправильно! Спробуйте ще раз!");
 
                 userInput = Convert.ToDateTime(GetStringUserInput());
                 break;

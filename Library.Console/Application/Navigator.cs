@@ -6,23 +6,11 @@ using Library.Console.Application.Commands.Menu;
 using CoreLibrary = Library.Console.Core.Library;
 
 namespace Library.Console.Application;
-/// <summary>
-///     Application navigator
-/// </summary>
 internal static class Navigator
 {
-    /// <summary>
-    ///     System state
-    /// </summary>
     private static State _state;
-    /// <summary>
-    ///     Application operation unit
-    /// </summary>
     private static CoreLibrary _library = null!;
 
-    /// <summary>
-    ///     Start application
-    /// </summary>
     internal static void Start(CoreLibrary library)
     {
         //setup
@@ -39,19 +27,9 @@ internal static class Navigator
         //end of state machine working
         System.Console.WriteLine("Допобачення!");
     }
-
-    /// <summary>
-    ///     Handle passed state
-    /// </summary>
-    /// <param name="state">
-    ///     Passed state
-    /// </param>
-    /// <returns>
-    ///     Returns command of current state
-    /// </returns>
+    
     private static IStateCommand HandleState(State state)
-    {
-        IStateCommand command = state switch
+        => state switch 
         {
             State.Greetings => new GreetingsCommand(_library),
             State.MainMenu => new MainMenuCommand(),
@@ -84,6 +62,4 @@ internal static class Navigator
             State.ReturnBook => new ReturnBookCommand(_library),
             _ => new ExitCommand()
         };
-        return command;
-    }
 }
