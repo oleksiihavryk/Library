@@ -3,7 +3,7 @@ using Library.Console.Exceptions;
 using System.Text;
 using CoreLibrary = Library.Console.Core.Library;
 
-string name = "[Вставте ім'я бібліотеки]"; //library name 
+string name = args[0] ?? "Бібліотека"; //library name 
 var library = new CoreLibrary(name);
 
 //Console configuration

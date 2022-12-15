@@ -211,16 +211,16 @@ internal sealed class Seeder
             {
                 var reader = AddReader(readerData, readingRoom);
 
-                TakeRandomBookByReader(reader, readingRoom);
+                TakeRandomBookByReader(reader);
             }
         }
     }
 
     private void TakeRandomBookByReader(
-        Reader reader,
-        ReadingRoom readingRoom)
+        Reader reader)
     {
-        var book = readingRoom
+        var book = reader
+            .ReadingRoom?
             .Books
             .Where(b => b.IsPossibleToTakeBook)
             .Select(b => b.Book)
@@ -229,7 +229,7 @@ internal sealed class Seeder
         if (book == null)
             return;
 
-        _library.TakeBook(reader, readingRoom, book); 
+        _library.TakeBook(reader, book); 
     }
     private Reader AddReader(
         ReaderSeedData readerData,

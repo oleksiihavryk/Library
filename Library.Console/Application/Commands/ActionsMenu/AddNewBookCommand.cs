@@ -42,12 +42,12 @@ internal class AddNewBookCommand : ApplicationStateCommand
             System.Console.Clear();
 
             _library.AddBook(
-                name, 
-                author, 
-                rating, 
+                name,
+                author,
+                rating,
                 count: 1,
-                date, 
-                receiveDate, 
+                date,
+                receiveDate,
                 readingRoom);
 
             System.Console.WriteLine(

@@ -30,6 +30,7 @@ internal class RemoveRoomCommand : ApplicationStateCommand
             System.Console.WriteLine(
                 "Бібліотека наразі не має жодної кімнати для читання");
         }
+
         System.Console.WriteLine("1. Повернутися");
 
         var response = GetIntegerUserInput(to: 1);

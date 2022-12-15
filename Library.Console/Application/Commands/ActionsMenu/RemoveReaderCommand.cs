@@ -30,6 +30,7 @@ internal class RemoveReaderCommand : ApplicationStateCommand
             System.Console.WriteLine(
                 "Бібліотека наразі не має жодного читача");
         }
+
         System.Console.WriteLine("1. Повернутися");
 
         var response = GetIntegerUserInput(to: 1);

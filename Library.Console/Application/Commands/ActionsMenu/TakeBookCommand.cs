@@ -14,37 +14,43 @@ internal class TakeBookCommand : ApplicationStateCommand
     public override State Execute()
     {
         var readers = _library.Readers.ToArray();
-        if (readers.Any())
+        if (!readers.Any())
+        {
+            System.Console.WriteLine("Бібліотека наразі немає жодно читача.");
+        }
+        else
         {
             System.Console.WriteLine("Виберіть читача:");
             var reader = GetItemFromMultipleVariant(readers);
             System.Console.Clear();
 
-            var books = reader.ReadingRoom?.Books!;
-            if (books.Any())
+            if (reader.ReadingRoom == null)
             {
-                System.Console.WriteLine("Виберіть книгу:");
-                var book = GetItemFromMultipleVariant(variants: books
-                    .Where(b => b.IsPossibleToTakeBook));
-                System.Console.Clear();
-
-                _library.TakeBook(
-                    reader,
-                    reader.ReadingRoom,
-                    book.Book);
-
-                System.Console.WriteLine(
-                    "Книга була успішно взята для вибраного читача.");
+                System.Console.WriteLine("Бібліотека наразі немає жодно читача.");
             }
             else
             {
-                System.Console.WriteLine(
-                    "Бібліотека наразі не має жодної книги у залі для читання вибраного читача.");
+                var books = reader.ReadingRoom.Books;
+                if (!books.Any())
+                {
+                    System.Console.WriteLine(
+                        "Бібліотека наразі не має жодної книги у залі для читання вибраного читача.");
+                }
+                else
+                {
+                    System.Console.WriteLine("Виберіть книгу:");
+                    var book = GetItemFromMultipleVariant(variants: books
+                        .Where(b => b.IsPossibleToTakeBook));
+                    System.Console.Clear();
+
+                    _library.TakeBook(
+                        reader,
+                        book.Book);
+
+                    System.Console.WriteLine(
+                        "Книга була успішно взята для вибраного читача.");
+                }
             }
-        }
-        else
-        {
-            System.Console.WriteLine("Бібліотека наразі немає жодно читача.");
         }
 
         System.Console.WriteLine("1. Повернутися");

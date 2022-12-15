@@ -15,15 +15,25 @@ internal class AddExistedBookCommand : ApplicationStateCommand
     public override State Execute()
     {
         var readingRooms = _library.ReadingRooms;
-        if (readingRooms.Any())
+        if (!readingRooms.Any())
+        {
+            System.Console.WriteLine(
+                "Бібліотека наразі не має жодної читальної зали");
+        }
+        else
         {
             System.Console.WriteLine($"Виберіть кімнату для читання:");
             var readingRoom = GetItemFromMultipleVariant(readingRooms);
             System.Console.Clear();
 
             var books = readingRoom.Books;
-            
-            if (books.Any())
+
+            if (!books.Any())
+            {
+                System.Console.WriteLine(
+                    "Бібліотека наразі не має жодної книги у вибраній залі для читання.");
+            }
+            else
             {
                 System.Console.WriteLine("Виберіть книгу:");
                 var storedBook = GetItemFromMultipleVariant(books);
@@ -35,22 +45,13 @@ internal class AddExistedBookCommand : ApplicationStateCommand
 
                 _library.AddBook(
                     readingRoom,
-                    storedBook.Book, 
+                    storedBook.Book,
                     count: quantity);
                 System.Console.Clear();
                 System.Console.WriteLine("Кількість книг в системі оновлено.");
             }
-            else
-            {
-                System.Console.WriteLine(
-                    "Бібліотека наразі не має жодної книги у вибраній залі для читання.");
-            }
         }
-        else
-        {
-            System.Console.WriteLine(
-                "Бібліотека наразі не має жодної читальної зали");
-        }
+
         System.Console.WriteLine("1. Повернутися");
 
         var response = GetIntegerUserInput(to: 1);

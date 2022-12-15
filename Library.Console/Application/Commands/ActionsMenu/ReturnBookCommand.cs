@@ -15,7 +15,11 @@ internal class ReturnBookCommand : ApplicationStateCommand
     public override State Execute()
     {
         var readers = _library.Readers.ToArray();
-        if (readers.Any())
+        if (!readers.Any())
+        {
+            System.Console.WriteLine("Бібліотека наразі немає жодного читача");
+        }
+        else
         {
             System.Console.WriteLine("Виберіть читача:");
             var reader = GetItemFromMultipleVariant(readers);
@@ -23,7 +27,11 @@ internal class ReturnBookCommand : ApplicationStateCommand
 
             var books = reader.Books;
 
-            if (books.Any())
+            if (!books.Any())
+            {
+                System.Console.WriteLine("Читач наразі не має жодної взятої книги");
+            }
+            else
             {
                 System.Console.WriteLine("Виберіть книгу:");
                 var book = GetItemFromMultipleVariant(books);
@@ -33,14 +41,6 @@ internal class ReturnBookCommand : ApplicationStateCommand
 
                 System.Console.WriteLine("Вибраний читач повернув вибрану книгу");
             }
-            else
-            {
-                System.Console.WriteLine("Читач наразі не має жодної взятої книги");
-            }
-        }
-        else
-        {
-            System.Console.WriteLine("Бібліотека наразі немає жодного читача");
         }
 
         System.Console.WriteLine("1. Повернутися");

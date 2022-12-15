@@ -15,7 +15,12 @@ internal class ReduceBooksQuantityCommand : ApplicationStateCommand
     public override State Execute()
     {
         var readingRooms = _library.ReadingRooms.ToArray();
-        if (readingRooms.Any())
+        if (!readingRooms.Any())
+        {
+            System.Console.WriteLine(
+                "Бібліотека наразі не має жодної читальної зали");
+        }
+        else
         {
             System.Console.WriteLine($"Виберіть кімнату для читання:");
             var readingRoom = GetItemFromMultipleVariant(readingRooms);
@@ -23,7 +28,12 @@ internal class ReduceBooksQuantityCommand : ApplicationStateCommand
 
             var books = readingRoom.Books;
 
-            if (books.Any())
+            if (!books.Any())
+            {
+                System.Console.WriteLine(
+                    "Бібліотека наразі не має жодної книги у вибраній залі для читання.");
+            }
+            else
             {
                 System.Console.WriteLine("Виберіть книгу:");
                 var storedBook = GetItemFromMultipleVariant(variants: books
@@ -42,17 +52,8 @@ internal class ReduceBooksQuantityCommand : ApplicationStateCommand
                 System.Console.WriteLine(
                     "Введену кількість книг було прибрано з читальної кімнати.");
             }
-            else
-            {
-                System.Console.WriteLine(
-                    "Бібліотека наразі не має жодної книги у вибраній залі для читання.");
-            }
         }
-        else
-        {
-            System.Console.WriteLine(
-                "Бібліотека наразі не має жодної читальної зали");
-        }
+
         System.Console.WriteLine("1. Back");
 
         var response = GetIntegerUserInput(to: 1);

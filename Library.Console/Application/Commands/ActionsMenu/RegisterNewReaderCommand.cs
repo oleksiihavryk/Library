@@ -46,12 +46,12 @@ internal class RegisterNewReaderCommand : ApplicationStateCommand
             System.Console.Clear();
 
             _library.RegisterNewReader(
-                firstName, 
-                lastName, 
-                fatherName, 
-                phone, 
-                education, 
-                birthday, 
+                firstName,
+                lastName,
+                fatherName,
+                phone,
+                education,
+                birthday,
                 readingRoom);
 
             System.Console.Clear();
@@ -62,6 +62,7 @@ internal class RegisterNewReaderCommand : ApplicationStateCommand
             System.Console.WriteLine(
                 "Бібліотека наразі не має жодної читальної зали");
         }
+
         System.Console.WriteLine("1. Повернутися");
 
         var response = GetIntegerUserInput(to: 1);

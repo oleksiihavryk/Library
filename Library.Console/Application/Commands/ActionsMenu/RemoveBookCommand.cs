@@ -16,14 +16,24 @@ internal class RemoveBookCommand : ApplicationStateCommand
     {
         var readingRooms = _library.ReadingRooms.ToArray();
 
-        if (readingRooms.Any())
+        if (!readingRooms.Any())
+        {
+            System.Console.WriteLine(
+                "Бібліотека наразі не має жодної читальної зали");
+        }
+        else
         {
             System.Console.WriteLine("Виберіть читальну залу:");
             var readingRoom = GetItemFromMultipleVariant(readingRooms);
             System.Console.Clear();
 
             var books = readingRoom.Books;
-            if (books.Any())
+            if (!books.Any())
+            {
+                System.Console.WriteLine(
+                    "Бібліотека наразі не має жодної книги у вибраній залі для читання.");
+            }
+            else
             {
                 System.Console.WriteLine("Виберіть книгу:");
                 var book = GetItemFromMultipleVariant(books);
@@ -35,17 +45,8 @@ internal class RemoveBookCommand : ApplicationStateCommand
 
                 System.Console.WriteLine("Книга була успішно видалена з системи.");
             }
-            else
-            {
-                System.Console.WriteLine(
-                    "Бібліотека наразі не має жодної книги у вибраній залі для читання.");
-            }
         }
-        else
-        {
-            System.Console.WriteLine(
-                "Бібліотека наразі не має жодної читальної зали");
-        }
+
         System.Console.WriteLine("1. Повернутися");
 
         var response = GetIntegerUserInput(to: 1);
