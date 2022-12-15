@@ -3,7 +3,7 @@
 namespace Library.Domain;
 public sealed class ReadingRoom
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string Specialization { get; set; }
     public int MaxPlacesCapacity { get; set; }
     public List<Reader> Readers { get; } = new List<Reader>();
@@ -24,7 +24,6 @@ public sealed class ReadingRoom
         string specialization, 
         int maxPlacesCapacity)
     {
-        Id = Guid.NewGuid();
         Specialization = specialization;
         MaxPlacesCapacity = maxPlacesCapacity;
     }

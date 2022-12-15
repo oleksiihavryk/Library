@@ -156,9 +156,8 @@ internal class Library : ILibrary
     }
     public TakenBook TakeBook(
         Reader reader, 
-        ReadingRoom readingRoom,
         Book book)
-        => reader.TakeBook(readingRoom, book);
+        => reader.TakeBook(book);
     public StoredBook ReturnBook(
         Reader reader,
         TakenBook book)

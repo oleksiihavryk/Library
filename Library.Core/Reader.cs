@@ -37,17 +37,25 @@ public sealed class Reader
             .Select(b => b.Book)
             .Any(books.Contains);
     public TakenBook TakeBook(
-        ReadingRoom readingRoom,
         Book book)
     {
+        if (ReadingRoom == null)
+        {
+            throw new TakeBookFromReadingRoomException(
+                book,
+                ReadingRoom,
+                message: "Book is cannot be taken by this reader because " +
+                         "reader is not signed to any of reading room!");
+        }
+
         try
         {
-            var sb = readingRoom.GetStoredBookByBook(book);
+            var sb = ReadingRoom.GetStoredBookByBook(book);
 
             if (sb.Count <= 0)
                 throw new TakeBookFromReadingRoomException(
                     book,
-                    readingRoom,
+                    ReadingRoom,
                     message: "You cannot take chosen book because " +
                              "all this type books is already taken.");
 
@@ -56,7 +64,7 @@ public sealed class Reader
                 --sb.Count;
             }
 
-            var tb = new TakenBook(book, readingRoom, DateTime.Now);
+            var tb = new TakenBook(book, ReadingRoom, DateTime.Now);
             Books.Add(tb);
 
             return tb;
@@ -65,7 +73,7 @@ public sealed class Reader
         {
             throw new TakeBookFromReadingRoomException(
                 book,
-                readingRoom,
+                ReadingRoom,
                 message: "See inner exception message to get more information about error.",
                 inner: ex);
         }

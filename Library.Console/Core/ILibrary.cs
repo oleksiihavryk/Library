@@ -48,7 +48,6 @@ internal interface ILibrary
     void RemoveReadingRoom(ReadingRoom readingRoom);
     TakenBook TakeBook(
         Reader reader,
-        ReadingRoom readingRoom,
         Book book);
     StoredBook ReturnBook(
         Reader reader,
